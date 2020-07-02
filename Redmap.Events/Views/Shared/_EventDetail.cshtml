@@ -1,0 +1,36 @@
+﻿@model Redmap.Events.DTO.EventsDto
+
+    <div class="error-list">
+        <div class="combind-list">
+            <label>Categories</label>
+            <p>@Model.Category</p>
+        </div>
+        <div class="combind-list">
+            <label>Summary</label>
+            <p>
+                @Model.Summary
+            </p>
+        </div>
+        <div class="combind-list">
+            <label>Message</label>
+            <p>
+                @Model.Message
+            </p>
+        </div>
+        <div class="combind-list">
+            <label>Source</label>
+            <p>@Model.Source</p>
+        </div>
+        <div class="combind-list">
+            <label>Server</label>
+            <p>@Model.Serverdetail</p>
+        </div>
+        <div class="combind-list">
+            <label>TimeStamp Date</label>
+            <p>@Model.CreatedDate</p>
+        </div>
+        <div class="combind-list">
+            <label>Attechment</label>
+            <p><a href="@Model.Attachment">@Model.Attachment</a></p>
+        </div>
+    </div>

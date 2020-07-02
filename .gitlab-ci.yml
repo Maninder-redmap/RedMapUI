@@ -1,0 +1,20 @@
+stages:
+  - build
+before_script:
+  - cd 
+  - 'C:\nuget2019\nuget restore "C:\GitLab-Runner\builds\50e68721\0\SDM\Centralization\Redmap.Events.sln"'
+
+build-dev:
+ stage: build
+ tags:
+    - staging
+ script:
+  - cd "C:\Windows\System32\inetsrv"
+  - 'appcmd start sites "Centralization"'
+  - 'appcmd stop sites "Centralization"'
+  - del C:\inetpub\wwwroot\Centralization\*.* -recurse -force
+  - cd "C:\GitLab-Runner\builds\50e68721\0\SDM\Centralization\"
+  - 'dotnet publish Redmap.Events.sln -c release -o "C:\GitLab-Runner\Projects_SDM\Centralization"'
+  - 'xcopy /H /S /y /c /q /k /e /f /i C:\GitLab-Runner\Projects_SDM\Centralization C:\inetpub\wwwroot\Centralization\ '
+  - cd "C:\Windows\System32\inetsrv"
+  - 'appcmd start sites "Centralization"'

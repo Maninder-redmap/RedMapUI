@@ -1,0 +1,230 @@
+﻿@using Kendo.Mvc
+@model Redmap.Events.DTO.EventsDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4 col-lg-3">
+            <div class="panel-container-vertical" style="margin-right:-14px;">
+                <div id="panelTop" class="panel-top" >
+                    <div class="box-header" id="searchbox">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        Search
+                        <i class="fa arrow  fa-caret-up" style="cursor: pointer;" aria-hidden="true"></i>
+                    </div>
+                    <form id="searchform" action="" class="child_div2" style="overflow:auto" >
+                        <div class="search-filter">
+                            <div class="form-group">
+                                <label>Category</label>
+                                @Html.DropDownList("CategoryId", ViewBag.MasterCategories as SelectList, "Choose category", new { id = "CategoryId", @class = "form-control" })
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea class="form-control" name="Message"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Summary</label>
+                                <textarea class="form-control" name="Summary"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Source</label>
+                                <input type="text" class="form-control" name="Source">
+                            </div>
+                            <div class="form-group">
+                                <label>Server Detail</label>
+                                <input type="text" class="form-control" name="ServerDetail">
+                            </div>
+                            <div class="form-group">
+                                <label>Event Code</label>
+                                <input type="text" class="form-control" name="ErrorCode">
+                            </div>
+                            <div class="form-group">
+                                <label>Event Timestamp</label>
+                                <input type="text" placeholder="Select date range" class="form-control" name="CreatedDate">
+                            </div>
+                            <div class="form-group">
+                                <label>Attachment Name</label>
+                                <input type="text" class="form-control" name="Attachment">
+                            </div>
+                            <div class="form-btn">
+                                <button type="button" class="btn-cancel">
+                                    <i class="fa fa-times"
+                                       aria-hidden="true"></i>Clear
+                                </button>
+                                <button type="button" class="btn-save" id="Searchbtn">
+                                    <i class="fa fa-search"
+                                       aria-hidden="true"></i>Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="splitter-horizontal">
+                </div>
+                <div class="panel-bottom"  id="panelBottom">
+                    <div class="box-header" id="streambox">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        Stream
+                        <i style="float:right;" aria-hidden="true">
+                            <h4>
+                                <a href="javascript:viid(0)" data-toggle="modal" data-target="#modalconfiguration">
+                                    <i class="fa fa-cog" aria-hidden="true"></i>
+                                </a>
+                            </h4>
+                        </i>
+                    </div>
+                    <div class="setting-box">
+                        
+                        <div class="responsive-grid">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+               
+
+            </div>
+            <div class="col-md-8 col-lg-9">
+
+                <form style="margin:3px;margin-top: 13px;" action="@Url.Action("ExportEvents", "Events")" method="POST">
+                    <input type="submit" class="k-button download" data-format="xlsx" data-title="Title1" value="Export to XLSX" />
+                </form>
+                @(Html.Kendo().Grid<Redmap.Events.DTO.EventsDto>()
+    .Name("grid")
+    .Columns(columns =>
+    {
+        columns.Command(command => command.Custom("viewdetail").Text(" ").Click("showDetails")).Width(50);
+        columns.Bound(p => p.Category).Title("Category").Width(105);
+        columns.Bound(p => p.Message).Title("Message").Width(105);
+        columns.Bound(p => p.Summary).Title("Summary").Width(130);
+        columns.Bound(p => p.Serverdetail).Title("ServerDetail").Width(130);
+        columns.Bound(p => p.Source).Title("Source").Width(105);
+        columns.Bound(p => p.Errorcode).Title("Event Code").Width(150);
+        columns.Bound(p => p.CreatedDate).Title("Time Stamp").Width(150);
+        columns.Bound(p => p.Attachment).ClientTemplate("<a href='#=Attachment#'>#=Attachment#</a>").Title("Attachment").Width(150);
+
+
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Search();
+    })
+    .ColumnMenu(col=>col.Filterable(false))
+    .Height(900)
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Sortable()
+    .Navigatable()
+    .Resizable(r=>r.Columns(true))
+    .Reorderable(r => r.Columns(true))
+    .Groupable(g=>g.ShowFooter(false))
+    .Filterable()
+    .Scrollable()
+    .Events(events => events.DataBound("onDataBound"))
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Batch(true)
+        .PageSize((int)ViewBag.PageSize )
+        .AutoSync(true)
+        .ServerOperation(true)
+        .Events(ev => ev.RequestEnd("onRequestEnd"))
+        //.Events(events => events.Error("error_handler"))
+        .Model(model =>
+        {
+            model.Field(p => p.Category).Editable(false);
+            model.Field(p => p.Message).Editable(false);
+            model.Field(p => p.Summary).Editable(false);
+            model.Field(p => p.Serverdetail).Editable(false);
+            model.Field(p => p.Source).Editable(false);
+            model.Field(p => p.Errorcode).Editable(false);
+            model.Field(p => p.Attachment).Editable(false);
+            model.Field(p => p.CreatedDate).Editable(false);
+            model.Id(p => p.EventId);
+        })
+        .Group(group=>group.Add("Category", typeof(string), ListSortDirection.Descending))
+        .Read("EventsBinding", "Events")
+    )
+)
+
+            </div>
+        </div>
+
+
+    <div class="modal stylish fade" id="modalconfiguration" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div class="modal-header">
+                    <div class="toggle-stich">
+                        <button type="button" id="switchbtn" class="btn btn-sm btn-toggle mb-0" data-toggle="button" aria-pressed="false" autocomplete="off">
+                            <div class="handle"></div>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-body">
+
+                    <div class="content-box">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+
+                                    <div class="form-group">
+                                        <label>Interval</label>
+                                        <select class="form-control" name="" id="Interval">
+                                            <option value="1">1 Minutes</option>
+                                            <option value="5" selected>5 Minutes</option>
+                                            <option value="10">10 Minutes</option>
+                                            <option value="20">20 Minutes</option>
+                                            <option value="30">30 Minutes</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Category</label>
+
+                                        @Html.ListBoxFor(m => m.GetMastercategories, this.ViewBag.MultiSelectCategories as SelectList, new { id = "categories",multiple="multiple", @class = "form-control input-md" })
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Server Detail</label>
+                                        <input type="text" class="form-control" id="Stream_Server">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="text-center">
+                        <button type="button" id="SaveConfiguration" class="btn-save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal stylish fade" id="modalDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <div id="modelbody">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Events.js"></script>

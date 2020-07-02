@@ -1,0 +1,251 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Redmap.Events</name>
+    </assembly>
+    <members>
+        <member name="T:Redmap.Events.Common.CommonClass">
+            <summary>
+            Class with common functions.
+            </summary>
+        </member>
+        <member name="M:Redmap.Events.Common.CommonClass.GetCategoryId(System.String)">
+            <summary>
+            Getting category id from enum by category name.
+            </summary>
+            <param name="categoryname"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Redmap.Events.Common.CommonClass.SaveFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
+            <summary>
+            Save file into local path
+            </summary>
+            <param name="file"></param>
+            <param name="filepath"></param>
+        </member>
+        <member name="M:Redmap.Events.Common.CommonClass.UploadFileToS3(Microsoft.AspNetCore.Http.IFormFile,System.String,System.String,System.String)">
+            <summary>
+            Upload File To S3 Bucket.
+            </summary>
+            <param name="file"></param>
+            <param name="fileName"></param>
+            <param name="accesskey"></param>
+            <param name="secertkey"></param>
+        </member>
+        <member name="T:Redmap.Events.Controllers.LogController">
+            <summary>
+            Log Controller
+            </summary>
+        </member>
+        <member name="M:Redmap.Events.Controllers.LogController.#ctor(Redmap.Events.Services.Interface.ILogMessagesService)">
+            <summary>
+            Log Controller Constructer
+            </summary>
+            <param name="logMessagesService"></param>
+        </member>
+        <member name="M:Redmap.Events.Controllers.LogController.GetLogMessage(System.String)">
+            <summary>
+            For fetch log messages data with parameter.
+            </summary>
+            <param name="categoryname"></param>
+            <returns>LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Controllers.LogController.GetLogMessage">
+            <summary>
+            For fetch log messages data.
+            </summary>        
+            <returns></returns>
+        </member>
+        <member name="M:Redmap.Events.Controllers.LogController.AttachedFileWithData(Redmap.Events.DTO.LogMessageDto)">
+            <summary>
+            Save log message data with attached file.
+            </summary>
+            <param name="model"></param>
+            <returns>logid</returns>
+        </member>
+        <member name="T:Redmap.Events.DTO.LogMessageDto">
+            <summary>
+            LogMessageModel
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Category">
+            <summary>
+            Category Name
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Message">
+            <summary>
+            Log Message
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Summary">
+            <summary>
+            Log Summary
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Errorcode">
+            <summary>
+            Log Errorcode
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Source">
+            <summary>
+            Log Source
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Serverdetail">
+            <summary>
+            Server Detail
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Tag1">
+            <summary>
+            Tag1
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.Tag2">
+            <summary>
+            Tag2
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.DTO.LogMessageDto.AttachedFile">
+            <summary>
+            Attached File
+            </summary>
+        </member>
+        <member name="T:Redmap.Events.Logging.ErrorDetails">
+            <summary>
+            Error Detail Model
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.Logging.ErrorDetails.StatusCode">
+            <summary>
+            Status Code
+            </summary>
+        </member>
+        <member name="P:Redmap.Events.Logging.ErrorDetails.Message">
+            <summary>
+            Message
+            </summary>
+        </member>
+        <member name="M:Redmap.Events.Logging.ErrorDetails.ToString">
+            <summary>
+            String json JsonSerializer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Redmap.Events.Logging.ExceptionMiddlewareExtension">
+            <summary>
+            Exception Middleware Extension
+            </summary>
+        </member>
+        <member name="M:Redmap.Events.Logging.ExceptionMiddlewareExtension.ConfigureExceptionHandler(Microsoft.AspNetCore.Builder.IApplicationBuilder,Redmap.Events.Services.Interface.ILogService)">
+            <summary>
+            Configure Exception Handler
+            </summary>
+            <param name="app"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Redmap.Events.Repository.BaseRepository.Get``1(System.String)">
+            <summary>
+            Returns an collection of the type of requested entity.
+            Example: To list of all logs.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="sql"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.BaseRepository.Add(System.String,System.Object)">
+            <summary>
+            Returns an id of the new added entity.       
+            </summary>
+            <param name="sql"></param>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.Interface.ILogMessageRepository.GetLogMessages(System.Int32)">
+            <summary>
+            For fetch log messages data with parameter.
+            </summary>
+            <param name="logCategoryId"></param>
+            <returns>List of type LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.Interface.ILogMessageRepository.GetLogMessages">
+            <summary>
+            For fetch log messages data.
+            </summary>        
+            <returns>List of type LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.Interface.ILogMessageRepository.SaveLogMessage(Redmap.Events.Model.LogMessageModel)">
+            <summary>
+            Save log message data .
+            </summary>
+            <param name="model"></param>
+            <returns>logid</returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.LogMessageRepository.GetLogMessages(System.Int32)">
+            <summary>
+            For fetch log messages data with parameter using postgreSQL function.
+            </summary>
+            <param name="logCategoryId"></param>
+            <returns>List of type LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.LogMessageRepository.GetLogMessages">
+            <summary>
+            For fetch log messages data using postgreSQL function.
+            </summary>        
+            <returns>List of type LogMessageModel </returns>
+        </member>
+        <member name="M:Redmap.Events.Repository.LogMessageRepository.SaveLogMessage(Redmap.Events.Model.LogMessageModel)">
+            <summary>
+            Save log message data using postgreSQL function.
+            </summary>
+            <param name="model"></param>
+            <returns>logid</returns>
+        </member>
+        <member name="M:Redmap.Events.Services.Interface.ILogMessagesService.GetLogMessages(System.Int32)">
+            <summary>
+            Get log messages list with parameter
+            </summary>
+            <param name="logCategoryId"></param>
+            <returns>List of type LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Services.Interface.ILogMessagesService.GetLogMessages">
+            <summary>
+            Get log messages list with parameter
+            </summary>        
+            <returns>List of type LogMessageModel</returns>
+        </member>
+        <member name="M:Redmap.Events.Services.Interface.ILogMessagesService.SaveLogMessage(Redmap.Events.DTO.LogMessageDto)">
+            <summary>
+            Save log message
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Redmap.Events.Services.LogMessagesService">
+            <summary>
+            LogMessagesService
+            </summary>
+        </member>
+        <member name="M:Redmap.Events.Services.LogMessagesService.GetLogMessages(System.Int32)">
+            <summary>
+            Get log messages by category id.
+            </summary>
+            <param name="logCategoryId"></param>
+            <returns> LogMessageDto List</returns>
+        </member>
+        <member name="M:Redmap.Events.Services.LogMessagesService.GetLogMessages">
+            <summary>
+            Get all log messages
+            </summary>
+            <returns>LogMessageDto List</returns>
+        </member>
+        <member name="M:Redmap.Events.Services.LogMessagesService.SaveLogMessage(Redmap.Events.DTO.LogMessageDto)">
+            <summary>
+            Save log message with attached file.
+            </summary>
+            <param name="model"></param>
+        </member>
+    </members>
+</doc>
